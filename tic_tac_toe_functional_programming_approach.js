@@ -12,7 +12,10 @@ const positionFilled = 'Position already filled. Please try again.';
 const drawMessage = 'The game ended in a draw.';
 const replayPrompt = 'Do you wish to play again? [y/N] ';
 let movePrompt = (currentPlayer) => `Player ${currentPlayer}, please enter the index of your next move: `;
-let winMessage = (winner) => `\nPlayer ${winner} has won the game.`;
+let winMessage = (winner) => `\nPlayer ${winner} has won the game.\n\n`;
+let loseMessage = (player) => `\nAnd player ${player} is the\n\n`
++ `██       ██████  ███████ ███████ ██████  \n` + `██      ██    ██ ██      ██      ██   ██ \n` + `██      ██    ██ ███████ █████   ██████  \n`
++ `██      ██    ██      ██ ██      ██   ██ \n` + `███████  ██████  ███████ ███████ ██   ██ \n`;
 
 
 const winningTrios = [
@@ -71,6 +74,9 @@ function getCurrentPlayer() {
     return (playerOnesTurn ? playerOne : playerTwo);
 }
 
+function getLoser() {
+    return (playerOnesTurn ? playerTwo : playerOne);
+}
 
 //Check if the current player has won the game.
 function check_win() {
@@ -103,8 +109,10 @@ function display_winner_info() {
         printGameboard(board);
         console.log(drawMessage);
     } else {
+        console.clear();
         printGameboard(board);
         console.log(winMessage(winner));
+        console.log(loseMessage(getLoser()));
     }
 }
 
@@ -149,7 +157,8 @@ function main(){
         // Ask user if they want to play again
         if (prompt(replayPrompt) != 'y') {
             console.clear();
-            //Prints out the game over text in console
+            //Prints out the game over text to the console
+            //Avoided the escape characteristic of backslashes by escaping the escape characters. (IKR)
             console.log("\n\n\n\n\n\n\n\n\n");
             console.log(`            _______       __       ___      ___   _______         ______  ___      ___  _______   _______   `);
             console.log(`            /" _   "|     /""\\     |"  \\    /"  | /"     "|       /    " \\|"  \\    /"  |/"     "| /"      \\  `);
@@ -159,13 +168,6 @@ function main(){
             console.log(`           (:   _(  _|/   /  \\\\  \\ |.  \\    /:  |(:      "|     \\        /    \\\\   /   (:      "||:  __   \\  `);
             console.log(`            \\_______)(___/    \\___)|___|\\__/|___| \\_______)      \\"_____/      \\__/     \\_______)|__|  \\___) `);
             console.log("\n\n\n\n\n\n\n\n\n");
-        //     _______       __       ___      ___   _______         ______  ___      ___  _______   _______   
-        //     /" _   "|     /""\\     |"  \\    /"  | /"     "|       /    " \\|"  \\    /"  |/"     "| /"      \\  
-        //    (: ( \\___)    /    \\     \\   \\  //   |(: ______)      // ____  \\\\   \\  //  /(: ______)|:        | 
-        //     \\/ \\        /' /\\  \\    /\\\\  \\/.    | \\/    |       /  /    ) :)\\\\  \\/. ./  \\/    |  |_____/   ) 
-        //     //  \\ ___  //  __'  \\  |: \\.        | // ___)_     (: (____/ //  \\.    //   // ___)_  //      /  
-        //    (:   _(  _|/   /  \\\\  \\ |.  \\    /:  |(:      "|     \\        /    \\\\   /   (:      "||:  __   \\  
-        //     \\_______)(___/    \\___)|___|\\__/|___| \\_______)      \\"_____/      \\__/     \\_______)|__|  \\___)    
         break;
         }
         reset();
